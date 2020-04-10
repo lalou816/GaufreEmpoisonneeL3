@@ -89,6 +89,11 @@ public class Joueur {
 
                 break;
             case 2:
+                //IA aléatoire + 1 pas de prediction
+                c = IA.Prediction1(gauffre);
+                if(c!= null)
+                    return c;
+
                 x = r.nextInt(gauffre.getWidth());
                 y = r.nextInt(gauffre.getHeight());
                 c = new Coup(x, y);
