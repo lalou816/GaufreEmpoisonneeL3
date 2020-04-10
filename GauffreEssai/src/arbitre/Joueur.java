@@ -90,7 +90,7 @@ public class Joueur {
                 break;
             case 2:
                 //IA aléatoire + 1 pas de prediction
-                c = IA.Prediction1(gauffre);
+                c = IA.Prediction1(gauffre,r);
                 if(c!= null)
                     return c;
 
