@@ -46,7 +46,7 @@ public class Joueur {
 
     public String getNom() {
         if (estIA) {
-            return nom + " (IA)";
+            return nom + " (IA"+ difficulteIA +")";
         } else {
             return nom;
         }
@@ -74,41 +74,29 @@ public class Joueur {
     }
 
     public Coup nextCoupIA(Gauffre gauffre) {
-        Random r = new Random();
 
-        int x = -1;
-        int y = -1;
-        Coup c;
         switch (difficulteIA) {
             case 1:
                 //IA Aléatoire, simplement
+                Random r = new Random();
+                Coup c;
 
-                x = r.nextInt(gauffre.getWidth());
-                y = r.nextInt(gauffre.getHeight());
+                int x = r.nextInt(gauffre.getWidth());
+                int y = r.nextInt(gauffre.getHeight());
                 c = new Coup(x, y);
 
-                break;
+                return c;
             case 2:
-                //IA aléatoire + 1 pas de prediction
-                c = IA.Prediction1(gauffre,r);
-                if(c!= null)
-                    return c;
-
-                x = r.nextInt(gauffre.getWidth());
-                y = r.nextInt(gauffre.getHeight());
-                c = new Coup(x, y);
-                break;
+                //IA un coup de prediction ou aleatoire
+                return IA.Prediction1(gauffre);
             case 3:
-                x = r.nextInt(gauffre.getWidth());
-                y = r.nextInt(gauffre.getHeight());
-                c = new Coup(x, y);
-                break;
+                //IA prediction totale
+                return IA.Prediction2(gauffre);
+
             default:
-                c = null;
+                return null;
             //Impossible, la difficulté est trop haute ou le joueur est humain.
         }
-
-        return c;
     }
 
     public ArrayList<Coup> EvaluationGauffre(Gauffre gauffre) {
