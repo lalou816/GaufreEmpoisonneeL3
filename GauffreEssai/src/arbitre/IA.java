@@ -42,16 +42,17 @@ public class IA {
     }
 
     static Coup Prediction2(Gauffre gauffre) {
-        int max = 0,x=0,y=0;
+        int max = -100,x=0,y=0;
         //On test pour chacune des cases disponible de la gauffre quelle est son ratio de victoire
         for (int i = 0; i < gauffre.getWidth(); i++) {
             for (int j = 0; j < gauffre.getHeight(); j++) {
-                if(gauffre.cases[i][j] && (i!=0 && j!=0)){
+                if(gauffre.cases[i][j] && i+j!=0){
                     //On entre dans la recursion si la case est ok
                     boolean[][] save  = gauffre.getCasesCopy();
                     gauffre.manger(i,j);
                     int tmp = Prediction_rec(gauffre,true);
                     gauffre.SetCases(save);
+                    System.out.println("Visite :" + i + ","+ j + " =" + tmp);
 
                     //On remplace si une valeur est meilleur    ##IL FAUDRA RANDOMIZER ICI##
                     if(tmp>max){
@@ -78,14 +79,12 @@ public class IA {
         int max = 0;
         for (int i = 0; i < gauffre.getWidth(); i++) {
             for (int j = 0; j < gauffre.getHeight(); j++) {
-                if(gauffre.cases[i][j] && (i!=0 && j!=0)) {
+                if(gauffre.cases[i][j] && i+j!=0) {
                     //On entre dans la recursion si la case est ok
                     boolean[][] save = gauffre.getCasesCopy();
                     gauffre.manger(i, j);
-                    int tmp = Prediction_rec(gauffre, !iaturn);
+                    max += Prediction_rec(gauffre, !iaturn);
                     gauffre.SetCases(save);
-                    if(tmp>max)
-                        max = tmp;
                 }
             }
         }
