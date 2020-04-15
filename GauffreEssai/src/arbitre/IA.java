@@ -42,7 +42,8 @@ public class IA {
     }
 
     static Coup Prediction2(Gauffre gauffre) {
-        int max = -100,x=0,y=0;
+        int max = -1000,x=0,y=0,prob=1;
+        Random r = new Random();
         //On test pour chacune des cases disponible de la gauffre quelle est son ratio de victoire
         for (int i = 0; i < gauffre.getWidth(); i++) {
             for (int j = 0; j < gauffre.getHeight(); j++) {
@@ -54,11 +55,18 @@ public class IA {
                     gauffre.SetCases(save);
                     System.out.println("Visite :" + i + ","+ j + " =" + tmp);
 
-                    //On remplace si une valeur est meilleur    ##IL FAUDRA RANDOMIZER ICI##
+                    //On remplace si une valeur est meilleur
                     if(tmp>max){
                         x=i;
                         y=j;
                         max = tmp;
+                        prob = 1;
+                    }
+                    //On remplace avec une probabilite egale au nombre de valeurs identiques rencontrees
+                    if(false && tmp==max && r.nextInt(prob)==0){
+                        x=i;
+                        y=j;
+                        prob++;
                     }
                 }
             }
