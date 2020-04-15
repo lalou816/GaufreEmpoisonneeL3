@@ -41,8 +41,10 @@ public class IA {
         return new Coup(x,y);
     }
 
-    static Coup Prediction2(Gauffre gauffre) {
+    static Coup Prediction2(Gauffre gorigin) {
         int max = -1000,x=0,y=0,prob=1;
+        Gauffre gauffre = new Gauffre(gorigin.width,gorigin.height);
+        gauffre.SetCases(gorigin.getCasesCopy());
         Random r = new Random();
         //On test pour chacune des cases disponible de la gauffre quelle est son ratio de victoire
         for (int i = 0; i < gauffre.getWidth(); i++) {
