@@ -92,4 +92,17 @@ public class Gauffre {
         return true;
     }
 
+    public boolean [][] getCasesCopy(){
+        boolean[][] copy = new boolean[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                copy[i][j] = cases[i][j];
+            }
+        }
+        return copy;
+    }
+
+    public void SetCases(boolean[][] _cases){
+        cases = _cases;
+    }
 }
