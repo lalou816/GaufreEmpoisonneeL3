@@ -62,8 +62,9 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         j = new Jeu();
+        IA.InitIa3(j.gauffre());
         gc = mainCanvas.getGraphicsContext2D();
-        System.out.println("On a créé une instance de jeu avec une gauffre de " + j.widthGauffre() + " par " + j.heightGauffre());
+        System.out.println("On a crÃ©Ã© une instance de jeu avec une gauffre de " + j.widthGauffre() + " par " + j.heightGauffre());
         
         // On initialise la combobox pour l'IA
         initialize_combobox();
@@ -84,7 +85,7 @@ public class FXMLDocumentController implements Initializable {
     public void initialize_combobox() {
     	comboIA.getItems().setAll("IA Random", "IA 2", "IA 3");
     	
-    	// Par d�faut on s�lectionne la premi�re IA
+    	// Par défaut on sélectionne la première IA
     	comboIA.getSelectionModel().select(0);
         
         ia_courante = comboIA.getSelectionModel().getSelectedIndex()+1;
@@ -181,9 +182,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void resetGame(ActionEvent event) {
         j = new Jeu();
+        IA.InitIa3(j.gauffre());
         historique.clear();
         int scoreG = joueurGauche.score();
         int scoreD = joueurDroit.score();
+
 
         joueurGauche = new Joueur("Alice", 0, true, scoreG);
         joueurDroit = new Joueur("Bob", ia_courante, false, scoreD);
@@ -234,11 +237,11 @@ public class FXMLDocumentController implements Initializable {
             joueurTour.changeTour(opposant);
             updateConsole("Tour de " + opposant.getNom());
         } else {
-            updateConsole("Coup invalide de\n" + joueurTour.getNom());
+            updateConsole("Coup invalide de\n" + joueurTour.getNom() + " :" + ratioX +", "+ ratioY);
             return false;
         }
         if (j.estTermine()) {
-            updateConsole("TERMINÉ !\n" + joueurTour.getNom() + " a gagné !");
+            updateConsole("TERMINÃ‰ !\n" + joueurTour.getNom() + " a gagnÃ© !");
             joueurTour.addScore();
             updateScore(joueurGauche.getNom() + " : " + joueurGauche.score() + "\n"
                     + joueurDroit.getNom() + " : " + joueurDroit.score());
