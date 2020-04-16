@@ -154,8 +154,8 @@ public class FXMLDocumentController implements Initializable {
         int scoreG = joueurGauche.score();
         int scoreD = joueurDroit.score();
 
-        joueurGauche = new Joueur("Alice", 0, true, scoreG);
-        joueurDroit = new Joueur("Bob", 3, false, scoreD);
+        joueurGauche = new Joueur("Alice", 3, true, scoreG);
+        joueurDroit = new Joueur("Bob", 0, false, scoreD);
         joueurGauche.setOpposant(joueurDroit);
         joueurDroit.setOpposant(joueurGauche);
         drawShapes(gc, 0);

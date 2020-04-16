@@ -63,14 +63,14 @@ public class IA {
     }
 
     static Coup Prediction2(Gauffre gauffre) {
-        return arbre.get(Arrays.deepHashCode(gauffre.cases));
+        return arbre.get(HashGauffre(gauffre));
     }
 
     static long Prediction_rec(Gauffre gauffre, boolean iaturn) {
         Coup coupmax =null;
 
         //Si on connait deja cette configuration on sort
-        if(iaturn)coupmax = arbre.get(Arrays.deepHashCode(gauffre.cases));
+        if(iaturn)coupmax = arbre.get(HashGauffre(gauffre));
         if(coupmax!=null)
             return coupmax.poid;
 
@@ -103,15 +103,27 @@ public class IA {
                     }
 
                     //On remplace avec une probabilite si identiques
-                    if(false && tmp == coupmax.poid && new Random().nextInt(prob)==0){
+                    if(tmp == coupmax.poid && new Random().nextInt(prob)==0){
                         coupmax = new Coup(i,j,tmp);
                         prob++;
                     }
                 }
             }
         }
-        if(iaturn)arbre.put(Arrays.deepHashCode(gauffre.cases),coupmax);
+        if(iaturn)arbre.put(HashGauffre(gauffre),coupmax);
         return total;
     }
 
+
+    static int HashGauffre(Gauffre g){
+        int hash = 0;
+        long puiss = 1;
+        for (int i = 0; i < g.getWidth(); i++) {
+            for (int j = 0; j < g.getHeight(); j++) {
+                if(g.cases[i][j])hash += puiss;
+                puiss*=2;
+            }
+        }
+        return hash;
+    }
 }

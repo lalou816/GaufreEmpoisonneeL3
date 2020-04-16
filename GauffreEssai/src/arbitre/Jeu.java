@@ -12,7 +12,7 @@ package arbitre;
 public class Jeu {
     Gauffre gauffre;
     public Jeu() {
-        this.gauffre = new Gauffre(3, 2);
+        this.gauffre = new Gauffre(7, 5);
     }
     
     public int widthGauffre () {
