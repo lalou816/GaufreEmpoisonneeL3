@@ -12,11 +12,14 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -47,15 +50,28 @@ public class FXMLDocumentController implements Initializable {
     public GraphicsContext gc;
     @FXML
     private MenuItem reset;
+    
+    @FXML
+    private ComboBox<String> comboIA;
+
+    @FXML
+    private Label IASelectionnee;
+    
+    private int ia_courante = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         j = new Jeu();
         IA.InitIa3(j.gauffre());
         gc = mainCanvas.getGraphicsContext2D();
-        System.out.println("On a créé une instance de jeu avec une gauffre de " + j.widthGauffre() + " par " + j.heightGauffre());
+        System.out.println("On a crÃ©Ã© une instance de jeu avec une gauffre de " + j.widthGauffre() + " par " + j.heightGauffre());
+        
+        // On initialise la combobox pour l'IA
+        initialize_combobox();
+        
         joueurGauche = new Joueur("Alice", 0, true, 0);
-        joueurDroit = new Joueur("Bob", 3, false, 0);
+        joueurDroit = new Joueur("Bob", ia_courante, false, 0);
+        
         joueurGauche.setOpposant(joueurDroit);
         joueurDroit.setOpposant(joueurGauche);
         drawShapes(gc, 0);
@@ -64,6 +80,23 @@ public class FXMLDocumentController implements Initializable {
         score.setText(joueurGauche.getNom() + " : " + joueurGauche.score() + "\n"
                 + joueurDroit.getNom() + " : " + joueurDroit.score());
         console.setText("Tour de " + joueurGauche.getNom());
+    }
+    
+    public void initialize_combobox() {
+    	comboIA.getItems().setAll("IA Random", "IA 2", "IA 3");
+    	
+    	// Par défaut on sélectionne la première IA
+    	comboIA.getSelectionModel().select(0);
+        
+        ia_courante = comboIA.getSelectionModel().getSelectedIndex()+1;
+        
+        comboIA.valueProperty().addListener(new ChangeListener<String>() {
+            @Override public void changed(ObservableValue ov, String t, String t1) {
+                ia_courante = comboIA.getSelectionModel().getSelectedIndex()+1;
+                resetGame(null);
+            }    
+        });
+        
     }
 
     @FXML
@@ -154,8 +187,9 @@ public class FXMLDocumentController implements Initializable {
         int scoreG = joueurGauche.score();
         int scoreD = joueurDroit.score();
 
-        joueurGauche = new Joueur("Alice", 3, true, scoreG);
-        joueurDroit = new Joueur("Bob", 0, false, scoreD);
+
+        joueurGauche = new Joueur("Alice", 0, true, scoreG);
+        joueurDroit = new Joueur("Bob", ia_courante, false, scoreD);
         joueurGauche.setOpposant(joueurDroit);
         joueurDroit.setOpposant(joueurGauche);
         drawShapes(gc, 0);
@@ -163,6 +197,8 @@ public class FXMLDocumentController implements Initializable {
         joueurDroit.setupIA(j, this);
         updateConsole("Tour de " + joueurGauche.getNom());
         drawShapes(gc, 0);
+        score.setText(joueurGauche.getNom() + " : " + joueurGauche.score() + "\n"
+                + joueurDroit.getNom() + " : " + joueurDroit.score());
     }
 
     @FXML
@@ -205,7 +241,7 @@ public class FXMLDocumentController implements Initializable {
             return false;
         }
         if (j.estTermine()) {
-            updateConsole("TERMINÉ !\n" + joueurTour.getNom() + " a gagné !");
+            updateConsole("TERMINÃ‰ !\n" + joueurTour.getNom() + " a gagnÃ© !");
             joueurTour.addScore();
             updateScore(joueurGauche.getNom() + " : " + joueurGauche.score() + "\n"
                     + joueurDroit.getNom() + " : " + joueurDroit.score());
