@@ -114,8 +114,12 @@ public class IA {
         return total;
     }
 
-
     static int HashGauffre(Gauffre g){
+        //return HashGauffreAdd(g);
+        return HashGauffreExp(g);
+    }
+
+    static int HashGauffreExp(Gauffre g){
         int hash = 0;
         long puiss = 1;
         for (int i = 0; i < g.getWidth(); i++) {
@@ -126,4 +130,17 @@ public class IA {
         }
         return hash;
     }
+
+    static int HashGauffreAdd(Gauffre g){
+        int res = 0;
+        for(int i = 0; i < g.getWidth(); i++){
+            for(int j = 0; j < g.getHeight(); j++){
+                if (g.cases[i][j]){
+                    res += (i+1) * 100000 + (j+1);
+                }
+            }
+        }
+        return res;
+    }
+
 }
