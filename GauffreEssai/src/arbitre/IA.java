@@ -57,25 +57,9 @@ public class IA {
         arbre = new Hashtable<>();
         Gauffre gauffre = new Gauffre(gorigin.width,gorigin.height);
         gauffre.SetCases(gorigin.getCasesCopy());
-
-        //On test pour chacune des cases disponible de la gauffre quelle est son ratio de victoire
-        for (int i = 0; i < gauffre.getWidth(); i++) {
-            for (int j = 0; j < gauffre.getHeight(); j++) {
-                if(gauffre.cases[i][j] && i+j!=0){
-                    //On entre dans la recursion si la case est ok
-                    boolean[][] save  = gauffre.getCasesCopy();
-                    gauffre.manger(i,j);
-                    Prediction_rec(gauffre,true);
-                    gauffre.SetCases(save);
-                    save  = gauffre.getCasesCopy();
-                    gauffre.manger(i,j);
-                    Prediction_rec(gauffre,false);
-                    gauffre.SetCases(save);
-                    System.out.println("visite : " + i + ", " + j);
-
-                }
-            }
-        }
+        Prediction_rec(gauffre,true);
+        Prediction_rec(gauffre,false);
+        System.out.println("IA initialisée");
     }
 
     static Coup Prediction2(Gauffre gauffre) {
@@ -83,19 +67,19 @@ public class IA {
     }
 
     static long Prediction_rec(Gauffre gauffre, boolean iaturn) {
-        Coup coupmax;
+        Coup coupmax =null;
 
         //Si on connait deja cette configuration on sort
-        coupmax = arbre.get(Arrays.deepHashCode(gauffre.cases));
+        if(iaturn)coupmax = arbre.get(Arrays.deepHashCode(gauffre.cases));
         if(coupmax!=null)
             return coupmax.poid;
 
         //Si est terminé, on renvoi +1 si on gagne et -1 si on perd
         if(gauffre.estTerminee()){
             if(iaturn)
-                return 1;
-            else
                 return -1;
+            else
+                return 1;
         }
 
         //Autrement on retourne la somme des sous branches
@@ -119,8 +103,7 @@ public class IA {
                     }
 
                     //On remplace avec une probabilite si identiques
-                    Random r = new Random();
-                    if(false && tmp == coupmax.poid && r.nextInt(prob)==0){
+                    if(false && tmp == coupmax.poid && new Random().nextInt(prob)==0){
                         coupmax = new Coup(i,j,tmp);
                         prob++;
                     }
