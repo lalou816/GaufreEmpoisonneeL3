@@ -54,7 +54,7 @@ public class FXMLDocumentController implements Initializable {
         gc = mainCanvas.getGraphicsContext2D();
         System.out.println("On a créé une instance de jeu avec une gauffre de " + j.widthGauffre() + " par " + j.heightGauffre());
         joueurGauche = new Joueur("Alice", 0, true, 0);
-        joueurDroit = new Joueur("Bob", 3, false, 0);
+        joueurDroit = new Joueur("Bob", 2, false, 0);
         joueurGauche.setOpposant(joueurDroit);
         joueurDroit.setOpposant(joueurGauche);
         drawShapes(gc, 0);

@@ -31,9 +31,15 @@ public class IA {
 
         //Eviter un coup perdant
         Random r = new Random();
+        if(!gauffre.cases[1][1] && !gauffre.cases[2][0]  && !gauffre.cases[0][2])
+            if(r.nextBoolean())
+                return new Coup(0,1);
+            else
+                return new Coup(1,0);
+
         int x = r.nextInt(gauffre.getWidth());
         int y = r.nextInt(gauffre.getHeight());
-        while((x == 1 && y == 0) ||(x == 0 && y == 1)){
+        while(!gauffre.cases[x][y] || (x == 1 && y == 0) ||(x == 0 && y == 1)){
             x = r.nextInt(gauffre.getWidth());
             y = r.nextInt(gauffre.getHeight());
         }
