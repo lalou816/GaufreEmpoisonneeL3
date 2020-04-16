@@ -201,7 +201,7 @@ public class FXMLDocumentController implements Initializable {
             joueurTour.changeTour(opposant);
             updateConsole("Tour de " + opposant.getNom());
         } else {
-            updateConsole("Coup invalide de\n" + joueurTour.getNom());
+            updateConsole("Coup invalide de\n" + joueurTour.getNom() + " :" + ratioX +", "+ ratioY);
             return false;
         }
         if (j.estTermine()) {

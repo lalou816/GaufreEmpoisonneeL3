@@ -86,7 +86,7 @@ public class IA {
         Coup coupmax;
 
         //Si on connait deja cette configuration on sort
-        coupmax = arbre.get(Arrays.deepHashCode(gauffre.cases)+(iaturn?0:1));
+        coupmax = arbre.get(Arrays.deepHashCode(gauffre.cases));
         if(coupmax!=null)
             return coupmax.poid;
 
@@ -99,7 +99,7 @@ public class IA {
         }
 
         //Autrement on retourne la somme des sous branches
-        coupmax = new Coup(0,0,-1000);
+        coupmax = new Coup(0,0,-10000);
         long total = 0;
         int prob = 1;
         for (int i = 0; i < gauffre.getWidth(); i++) {
@@ -127,7 +127,7 @@ public class IA {
                 }
             }
         }
-        arbre.put(Arrays.deepHashCode(gauffre.cases)+(iaturn?0:1),coupmax);
+        if(iaturn)arbre.put(Arrays.deepHashCode(gauffre.cases),coupmax);
         return total;
     }
 
